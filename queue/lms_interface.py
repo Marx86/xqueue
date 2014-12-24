@@ -209,7 +209,7 @@ def _upload_to_local(file_to_upload, path):
             break
         md5hash.update(chunk)
 
-    name = md5.digest()
+    name = md5hash.digest()
     with open(os.path.join(queue_dir, name), 'wb+') as fd:
         for chunk in file_to_upload.chunks():
             fd.write(chunk)
