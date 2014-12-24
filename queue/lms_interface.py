@@ -1,5 +1,7 @@
+import os
 import json
 import logging
+import hashlib
 
 from django.conf import settings
 from django.contrib.auth.decorators import login_required
@@ -56,7 +58,12 @@ def submit(request):
                 s3_urls = dict() # For external grader use
                 for filename in request.FILES.keys():
                     s3_key = make_hashkey(xqueue_header + filename)
-                    s3_url = _upload_to_s3(request.FILES[filename], queue_name, s3_key)
+                    if settings.FILE_STORAGE == settings.LOCAL_STORAGE:
+                        s3_url = _upload_to_local(request.FILES[filename],
+                                                  queue_name)
+                    elif settings.FILE_STORAGE == settings.AWS_STORAGE
+                        s3_url = _upload_to_s3(request.FILES[filename],
+                                               queue_name, s3_key)
                     s3_keys.update({filename: s3_key})
                     s3_urls.update({filename: s3_url})
 
@@ -189,3 +196,22 @@ def _upload_to_s3(file_to_upload, path, name):
     public_url = k.generate_url(60*60*24*365)  # URL timeout in seconds.
 
     return public_url
+
+
+def _upload_to_local(file_to_upload, path):
+    queue_dir = os.path.join(settings.LOCAL_STORAGE_PATH, path)
+    if not os.path.isdir(queue_dir):
+        os.mkdir(queue_dir)
+
+    md5hash = hashlib.md5()
+    for chunk in file_to_upload.chunks():
+        if not chunk:
+            break
+        md5hash.update(chunk)
+
+    name = md5.digest()
+    with open(os.path.join(queue_dir, name), 'wb+') as fd:
+        for chunk in file_to_upload.chunks():
+            fd.write(chunk)
+
+    return os.path.join(settings.LOCAL_STORAGE_URL, path, name)

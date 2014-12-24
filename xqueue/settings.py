@@ -166,3 +166,11 @@ LOGGING = get_logger_config(
     logging_env="dev",
     dev_env=True,
     debug=True)
+
+LOCAL_STORAGE = 'local'
+AWS_STORAGE = 'aws'
+
+LOCAL_STORAGE_PATH = '/edx/files/'
+LOCAL_STORAGE_URL = 'http://localhost:8016/files'
+
+FILE_STORAGE = LOCAL_STORAGE
