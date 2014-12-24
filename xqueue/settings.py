@@ -170,7 +170,7 @@ LOGGING = get_logger_config(
 LOCAL_STORAGE = 'local'
 AWS_STORAGE = 'aws'
 
-LOCAL_STORAGE_PATH = '/edx/files/'
+LOCAL_STORAGE_PATH = '/edx/app/files/'
 LOCAL_STORAGE_URL = 'http://localhost:8016/files'
 
 FILE_STORAGE = LOCAL_STORAGE
