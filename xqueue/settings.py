@@ -171,6 +171,6 @@ LOCAL_STORAGE = 'local'
 AWS_STORAGE = 'aws'
 
 LOCAL_STORAGE_PATH = '/edx/app/files/'
-LOCAL_STORAGE_URL = 'http://localhost:8016/files'
+LOCAL_STORAGE_URL = 'http://localhost:8016'
 
 FILE_STORAGE = LOCAL_STORAGE
