@@ -61,7 +61,7 @@ def submit(request):
                     if settings.FILE_STORAGE == settings.LOCAL_STORAGE:
                         s3_url = _upload_to_local(request.FILES[filename],
                                                   queue_name)
-                    elif settings.FILE_STORAGE == settings.AWS_STORAGE
+                    elif settings.FILE_STORAGE == settings.AWS_STORAGE:
                         s3_url = _upload_to_s3(request.FILES[filename],
                                                queue_name, s3_key)
                     s3_keys.update({filename: s3_key})
